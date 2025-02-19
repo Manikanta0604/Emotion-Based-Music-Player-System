@@ -1,0 +1,77 @@
+import cv2
+import pygame
+import time
+
+# EmotionDetector class
+class EmotionDetector:
+    CASCADE_FILE = "haarcascade_frontalface_default.xml"
+    EMOTION_DETECTION_WIDTH = 48
+    EMOTION_DETECTION_HEIGHT = 48
+
+    def __init__(self):
+        self.face_detector = cv2.CascadeClassifier(self.CASCADE_FILE)
+        self.video_capture = cv2.VideoCapture(0)
+
+    def detect_emotion(self):
+        emotion = "neutral"  # Default emotion
+        
+        if not self.video_capture.isOpened():
+            print("Error: Could not open the webcam.")
+            return emotion
+
+        ret, frame = self.video_capture.read()
+        if not ret or frame is None:
+            print("Error: Webcam frame is empty.")
+            return emotion
+
+        faces = self.face_detector.detectMultiScale(frame)
+
+        for (x, y, w, h) in faces:
+            cropped = frame[y:y+h, x:x+w]
+            resized = cv2.resize(cropped, (self.EMOTION_DETECTION_WIDTH, self.EMOTION_DETECTION_HEIGHT))
+            # Emotion detection logic goes here using the resized image
+            # For simplicity, we'll assume a neutral emotion
+            emotion = "neutral"
+        
+        return emotion
+
+# MusicPlayer class
+class MusicPlayer:
+    def __init__(self):
+        pygame.mixer.init()
+
+    def play_music(self, file_path):
+        pygame.mixer.music.load(file_path)
+        pygame.mixer.music.play()
+        while pygame.mixer.music.get_busy():
+            time.sleep(0.1)
+
+# Function to map emotions to music files
+def get_music_file_path(emotion):
+    # Define mapping of emotions to music files
+    if emotion == "happy":
+        return "happy_music.wav"
+    elif emotion == "sad":
+        return "sad_music.wav"
+    elif emotion == "angry":
+        return "angry_music.wav"
+    elif emotion == "neutral":
+        return "normal_music.wav"
+    else:
+        return "default_music.wav"
+
+# Main function
+def main():
+    emotion_detector = EmotionDetector()
+    music_player = MusicPlayer()
+
+    # Continuously detect emotion and play corresponding music
+    while True:
+        emotion = emotion_detector.detect_emotion()
+        music_file_path = get_music_file_path(emotion)
+        print(f"Detected emotion: {emotion}")
+        print(f"Playing music: {music_file_path}")
+        music_player.play_music(music_file_path)
+
+if __name__ == "__main__":
+    main()
