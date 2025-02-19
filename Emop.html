@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Emotify - Emotion-Based Music Player</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <nav>
+        <div class="logo">
+            <img src="static/img2.png" alt="Emotify Logo">
+            <span>Emotify</span>
+        </div>
+        <ul>
+            <li><a href="/home">HOME</a></li>
+            <li><a href="/features">FEATURES</a></li>
+            <li><a href="/contact">CONTACT</a></li>
+            <li><a href="/team_info">TEAM-INFO</a></li>
+            <li><a href="/logout" class="btn">Logout</a></li>
+        </ul>
+    </nav>
+    
+    <div class="content">
+        <h1>Welcome to Emotify</h1>
+        <p>Experience emotion-based music recommendations!</p>
+        <form action="/start_detection" method="post">
+            <button type="submit">Start Emotion Detection</button>
+        </form>
+    </div>
+</body>
+</html>
